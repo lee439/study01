@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<input type="text" id="t_id">
+<input type="button" id="btn_id" value="ID 중복체크하기" onclick="fn_process()" ><br><br>
+<div id="message"></div>
+
+<script src="http://code.jquery.com/jquery-1.12.0.js"></script>
+<script>
+	function fn_process(){
+		var _id = $('#t_id').val();
+		if(_id == ""){
+			alert("ID를 입력하세요.");
+			return;
+		}
+		
+		$.ajax({
+			type: "POST",
+			url:"http://localhost:9091/study01/mem",
+			data: {id: _id},
+			dataType: "text",
+			async:false,
+			success : function (data, textStatus){
+				if(data == "usable"){
+					$('#message').text("사용할 수 있는 ID입니다.");
+					$('#btn_id').prop("disable",true);
+					
+				}else {
+				$('#message').text("사용할 수 없는 ID입니다.");
+				}
+			},
+            error: function() {
+                $('#message').html("<h2>서버문제!</h2>");
+              }
+			
+		});
+	};
+
+</script>
+
+
+
+</body>
+</html>

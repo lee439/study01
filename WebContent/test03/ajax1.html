@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ 	<input type="button" value="전송하기" onclick="fn_process()"><br><br>
+	<div id="message"></div>
+	
+
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>	
+    <script> 
+		function fn_process(){
+			$.ajax({
+				type:"GET",
+				dataType:"text",
+				async:false,
+				url:"http://localhost:9091/study01/ajaxTest1",
+				data:{param:"Hello world!,jquery"},
+				success: function (data, textStatus){
+					$('#message').html("성공");
+				},
+				error: function(data,textStatus){
+					alert("에러가 발생하였습니다.");
+				}
+				
+			});
+		}
+	
+	</script>
+
+</body>
+</html>

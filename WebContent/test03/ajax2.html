@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>	
+	<script>
+		function fn_process(){
+			$.ajax({
+				type:"post",
+				async:false,
+				url:"http://localhost:9091/study01/ajaxTest2",
+				dataType:"xml",
+				success:function (info, textStatus){
+					$(info).find("book").each(function(){
+						var title=$(this).find("title").text();
+						var writer=$(this).find("writer").text();
+				
+					$('#bookInfo').append(
+							"<p>"+title+"</p>"+"<p>"+writer+"</p>"
+						);
+					});
+					
+				};
+			});
+		};
+	
+	</script>
+
+</body>
+</html>
