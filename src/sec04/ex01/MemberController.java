@@ -56,25 +56,28 @@ public class MemberController extends HttpServlet {
 			nextpage = "/member/listMembers.do";
 		}else if(action.equals("/memberForm.do")) {
 			nextpage="/test01/memberForm.jsp";
+			
 		}else if(action.equals("/modMemberForm.do")) {
 			String id = request.getParameter("id");
 			MemberVO memInfo = memberDAO.findMember(id);
 			request.setAttribute("memInfo", memInfo);
-			nextpage = "test01/modMemberForm.jsp";
+			nextpage = "/test01/modMemberForm.jsp";
 		}else if(action.equals("/modMember.do")) {
 			String id = request.getParameter("id"); 
 			String pwd = request.getParameter("pwd");
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
-			memberDAO.modMember(id,pwd,name,email);
+
+			int result=memberDAO.modMember(id,pwd,name,email);
+			System.out.println("결과:"+result);
 			request.setAttribute("msg", "modified");
-			nextpage="member/listMembers.do";
+			nextpage="/member/listMembers.do";
 		}
 		else if(action.equals("/delMember.do")) {
 			String id = request.getParameter("id");
 			memberDAO.delMember(id);
 			request.setAttribute("msg", "deleted");
-			nextpage="member/listMembers.do";
+			nextpage="/member/listMembers.do";
 			
 		}else {
 			nextpage = "/test01/index.jsp";

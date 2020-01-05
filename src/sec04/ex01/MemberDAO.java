@@ -60,7 +60,7 @@ import sec04.ex01.DBConnectionMgr;
 					vo.setPwd(rs.getString("pwd"));
 					vo.setName(rs.getString("name"));
 					vo.setEmail(rs.getString("email"));
-					vo.setJoinDate(rs.getDate("joinDate"));
+					vo.setJoinDate(rs.getString("joinDate"));
 					list.add(vo);
 				
 				}				
@@ -123,17 +123,19 @@ import sec04.ex01.DBConnectionMgr;
 				ps.setString(1, id);
 				rs=ps.executeQuery();
 				
-				//아이디 하나만 존재하니까 if 써줘야
 				if(rs.next()) {
 					memInfo = new MemberVO();
 					memInfo.setId(rs.getString("id"));
 					memInfo.setPwd(rs.getString("pwd"));
 					memInfo.setName(rs.getString("name"));
 					memInfo.setEmail(rs.getString("email"));
-					memInfo.setJoinDate(rs.getDate("joinDate"));
+					memInfo.setJoinDate(rs.getString("joinDate"));
 				}
 			} catch (Exception e) {
-
+				e.printStackTrace();
+				
+			} finally {
+				ds.freeConnection(con,ps);
 			}
 			
 			return memInfo;
@@ -141,10 +143,38 @@ import sec04.ex01.DBConnectionMgr;
 		}
 
 		//회원정보 수정하기
-		public void modMember(String id, String pwd, String name, String email) {
-			String sql="";
-			
-			
+		public int modMember(String id, String pwd, String name, String email) {
+			String sql="UPDATE t_member SET pwd=?, name=?, email=? ,joinDate=now() where id=?";
+			Connection con=null;
+			PreparedStatement ps=null;
+			int result=0;
+			try {
+				con=ds.getConnection();
+				ps=con.prepareStatement(sql);
+				
+				ps.setString(1, pwd);
+				ps.setString(2, name);
+				ps.setString(3, email);
+				ps.setString(4, id);
+				result=ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+						
+			return result;
 		}
 
 		//회원 삭제 
@@ -152,16 +182,21 @@ import sec04.ex01.DBConnectionMgr;
 			String sql="delete from t_member where id=?";
 			Connection con=null;
 			PreparedStatement ps=null;
-			int result=0;
+
 			try {
 				con=ds.getConnection();
+				ps=con.prepareStatement(sql);
 				ps.setString(1, id);
-				result=ps.executeUpdate();
+				ps.executeUpdate();
 			
 			
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
+				
+			} finally {
+				ds.freeConnection(con,ps);
 			}
+		
 		}
 
 

@@ -13,6 +13,26 @@
 <title>Insert title here</title>
 </head>
 <body align="center">
+  <script src="http://code.jquery.com/jquery-1.12.0.js"></script>	
+	<c:choose>
+		<c:when test='${msg=="addMember" }'>
+			<script>
+				alert("회원을 등록했습니다.");
+				
+			</script>
+		</c:when>
+		<c:when test='${msg=="modified" }'>
+			<script>
+				alert("회원 정보를 수정했습니다.");
+				
+			</script>
+		</c:when>
+		<c:when test='${msg=="deleted" }'>
+			<script>
+				alert("회원 정보를 삭제했습니다.");
+			</script>
+		</c:when>
+	</c:choose>
 	<h2>회원정보</h2>
 	
 	<table align="center">
@@ -21,7 +41,9 @@
 			<td><b>비밀번호</b></td>
 			<td><b>이름</b></td>
 			<td><b>이메일</b></td>
-			<td><b>가입일</b></td>	
+			<td><b>가입일</b></td>
+			<td><b>수정</b></td>	
+			<td><b>삭제</b></td>	
 		</tr>
 		
 		<c:choose>
@@ -38,13 +60,15 @@
 					<td>${mem.name }</td>
 					<td>${mem.email }</td>
 					<td>${mem.joinDate }</td>
+					<td><a href="${contextPath }/member/modMemberForm.do?id=${mem.id }">수정</a></td>
+					<td><a href="${contextPath }/member/delMember.do?id=${mem.id }">삭제</a></td>				
 				</tr>
 			</c:forEach>
 			</c:when>
 		</c:choose>
 
 	</table>
-	<a href="${contextPath}/member/delMember.do">회원가입하기</a>
+	<a href="${contextPath}/member/memberForm.do">회원가입하기</a>
 
 </body>
 </html>

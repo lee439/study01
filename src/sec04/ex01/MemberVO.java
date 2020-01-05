@@ -1,13 +1,12 @@
 package sec04.ex01;
 
-import java.util.Date;
 
 public class MemberVO {
 	private String id;
 	private String pwd;
 	private String name;
 	private String email;
-	private Date joinDate;
+	private String joinDate;
 	
 	public String getId() {
 		return id;
@@ -33,11 +32,11 @@ public class MemberVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getJoinDate() {
+	public String getJoinDate() {
 		return joinDate;
 	}
-	public void setJoinDate(Date joinDate) {
-		joinDate = joinDate;
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
 	}
 	
 	
